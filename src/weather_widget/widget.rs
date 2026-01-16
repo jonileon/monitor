@@ -108,7 +108,7 @@ fn render_week_forecast(area: Rect, buf: &mut ratatui::prelude::Buffer, forecast
         let temp_max_span = Span::styled(format!("{:5.1}", max) + CELSIUS, Style::default().fg(Color::Red));
         let dash = Span::raw(" - ");
         let temp_min_span = Span::styled(format!("{:5.1}", min) + CELSIUS, Style::default().fg(Color::Blue));
-        let padding = Span::raw(" ".repeat(area.width as usize - weather_condition.description.chars().count() - 56));
+        let padding = Span::raw(" ".repeat(area.width as usize - weather_condition.description.chars().count() - 53));
         text.push_line(Line::from_iter([
             time_span,
             padding,
