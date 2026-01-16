@@ -98,18 +98,21 @@ fn render_current_temp(area: Rect, buf: &mut ratatui::prelude::Buffer, weather: 
 
 fn render_week_forecast(area: Rect, buf: &mut ratatui::prelude::Buffer, forecast: DailyResponse){
     let mut text = Text::from(" ");
-    izip!(forecast.time, forecast.temperature_2m_max, forecast.temperature_2m_min, forecast.precipitation_sum).into_iter().for_each(|(date, max, min, prec)| {
+    izip!(forecast.time, forecast.temperature_2m_max, forecast.temperature_2m_min, forecast.precipitation_sum, forecast.weather_code).into_iter().for_each(|(date, max, min, prec, wmo)| {
         let time_span = Span::raw("  ".to_string() + date.as_str() + ":");
-        let rain_icon = Span::raw("󰖗  ");
+        let weather_condition = parse_wmo_code(wmo);
+        let condition_span = Span::styled(weather_condition.description.clone() + " " + weather_condition.icon.as_str(), Style::default().fg(Color::White));
+        let rain_icon = Span::raw("   󰖗 ");
         let rain_span = Span::styled(format!("{:5.1}mm", prec), Style::default().fg(Color::Blue));
-        let temp_icon = Span::raw("      ");
+        let temp_icon = Span::raw("    ");
         let temp_max_span = Span::styled(format!("{:5.1}", max) + CELSIUS, Style::default().fg(Color::Red));
         let dash = Span::raw(" - ");
         let temp_min_span = Span::styled(format!("{:5.1}", min) + CELSIUS, Style::default().fg(Color::Blue));
-        let padding = Span::raw(" ".repeat(area.width as usize - 50));
+        let padding = Span::raw(" ".repeat(area.width as usize - weather_condition.description.chars().count() - 56));
         text.push_line(Line::from_iter([
             time_span,
             padding,
+            condition_span,
             rain_icon,
             rain_span,
             temp_icon,
