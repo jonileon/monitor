@@ -130,7 +130,7 @@ struct WheatherCondition {
     description: String,
 }
 fn parse_wmo_code(code: u8)-> WheatherCondition {
-match code {
+    match code {
         0 => WheatherCondition{icon: " ".to_string(), description: "wolkenfrei".to_string()},
         1..=3 => WheatherCondition{icon: " ".to_string(), description: "bewölkt".to_string()},
         45..=48 => WheatherCondition{icon: " ".to_string(), description: " nebelig".to_string()},
