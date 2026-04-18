@@ -32,7 +32,7 @@ fn parse_mensa_meals_to_line(meals: Vec<JsonMensaMeal>, abendausgabe_open: &mut 
     let mut lines: Vec<MensaLine> = Vec::new();
     for meal in meals {
         if !EXCLUDE.contains(&meal.category.as_str()) {
-            if meal.category.contains("Abendessen") {
+            if meal.category.contains("Abendessen") && meal.name.contains("Abendessen"){
                 *abendausgabe_open = true;
             } else {
                 let mut line_exists = false;
